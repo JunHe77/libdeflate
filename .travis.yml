@@ -3,6 +3,11 @@ language: c
 env:
   global:
     - CFLAGS=-Werror
+    - JAVA_HOME=$(readlink -f `which javac` | sed "s:bin/javac::")
+
+arch:
+    - amd64
+    - arm64
 
 matrix:
   include:
@@ -69,3 +74,13 @@ matrix:
       os: windows
       script:
         - mingw32-make all check
+
+  exclude:
+    - arch: arm64
+      os: windows
+    - arch: arm64
+      os: osx
+
+before_script:
+  - java -version
+  - whereis javac
